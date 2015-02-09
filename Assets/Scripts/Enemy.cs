@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour {
 		moveDirection = Vector2.zero;
 		//state = (EnemyState) Random.Range (0, 1);
 		state = EnemyState.PATROL;
+		player = GameObject.FindWithTag("Player");
 	}
 
 	void Update () {
