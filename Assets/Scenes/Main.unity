@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b505455d1dd8407da9b8328f95e295d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundTile: {fileID: 152062, guid: e2bb74d6559b14eccbb502d6f925bfad, type: 2}
+  backgroundTile: {fileID: 11482912, guid: e2bb74d6559b14eccbb502d6f925bfad, type: 2}
 --- !u!61 &1355303050
 BoxCollider2D:
   m_ObjectHideFlags: 0

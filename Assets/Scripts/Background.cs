@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Background : MonoBehaviour {
 	public BackgroundTile backgroundTile;
+	public GameObject wall;
 
 	private Random random;
 	private int tileCountX;
@@ -12,6 +13,7 @@ public class Background : MonoBehaviour {
 	private float tileWidth;
 	private float tileHeight;
 	private BackgroundTile[,] map;
+	private int cellCount = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -28,7 +30,22 @@ public class Background : MonoBehaviour {
 			}
 		}
 
-		GenerateMap();
+		while (cellCount < 60) {
+			DestroyMap ();
+			GenerateMap();
+			Debug.Log ("mapsize: " + tileCountX + "," + tileCountY);
+			Debug.Log ("cellCount=" + cellCount);
+		}
+
+		for (int i = 0; i < tileCountX; i++) {
+			for (int j = 0; j < tileCountY; j++) {
+				if (map[i,j] == null) {
+					Instantiate (wall, new Vector3(i * tileWidth, j * tileHeight, 10), Quaternion.identity);
+				}
+			}
+		}
+		
+		//}
 //		for (float x = 0; x <= width; x+= tileWidth) {
 //			for (float y = 0; y <= height; y += tileHeight) {
 //				GameObject clone = Instantiate (backgroundTile, new Vector3(x, y, 20), Quaternion.identity) as GameObject;
@@ -38,14 +55,26 @@ public class Background : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+		if (Input.GetKeyDown (KeyCode.G)) {
+			Application.LoadLevel ("Main");
+		}
+	}
+
+	void DestroyMap() {
+		for (int i = 0; i < tileCountX; i++) {
+			for (int j = 0; j < tileCountY; j++) {
+				Destroy (map[i,j]);
+				map[i,j] = null;
+			}
+		}
 	}
 
 	void GenerateMap() {
+		cellCount = 0;
 		ArrayList activeList = new ArrayList();
 		DoFirstGenerationStep(activeList);
 		while (activeList.Count > 0) {
-			DoNextGenerationStep(activeList);
+			StartCoroutine("DoNextGenerationStep", activeList);
 		}
 	}
 
@@ -53,17 +82,19 @@ public class Background : MonoBehaviour {
 		activeList.Add (CreateCell (new Vector2((int)(tileCountX / 2), (int)(tileCountY / 2))));
 	}
 
-	void DoNextGenerationStep(ArrayList activeList) {
+	IEnumerator DoNextGenerationStep(ArrayList activeList) {
 		int currentIndex = activeList.Count - 1;
 		BackgroundTile currentTile = (BackgroundTile)activeList[currentIndex];
 		GeneratorDirections direction = CellDirection.getRandomDirection;
 		Vector2 coordinates = currentTile.mapCoordinate + CellDirection.toVector (direction);
 		if (ContainsCoordinates (coordinates) && map[(int)coordinates.x, (int)coordinates.y] == null) {
 			activeList.Add (CreateCell(coordinates));
-
+			cellCount++;
 		} else {
 			activeList.RemoveAt (currentIndex);
 		}
+
+		yield return new WaitForSeconds(1.0f);
 	}
 
 	BackgroundTile CreateCell(Vector2 coordinate) {
