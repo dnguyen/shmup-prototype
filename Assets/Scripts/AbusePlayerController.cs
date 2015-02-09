@@ -95,7 +95,7 @@ public class AbusePlayerController : MonoBehaviour {
 
 
 	void OnTriggerEnter2D(Collider2D other) {
-		Debug.Log ("Player colliding:" + other.name);
+		//Debug.Log ("Player colliding:" + other.name);
 
 	}
 

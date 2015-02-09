@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour {
 		if (other.name == "Player") {
 			var player = other.GetComponent<AbusePlayerController>();
 			player.health--;
-			Debug.Log ("Player health:" + player.health);
+			//Debug.Log ("Player health:" + player.health);
 		}
 	}
 }
