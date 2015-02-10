@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour {
 	};
 
 	private float MOVE_SPEED = 100f;
-	private float FIRE_DELAY = 0.1f;
+	private float FIRE_DELAY = 0.25f;
 	private float BULLET_SPEED = 10.0f;
 	private float lastShot = 0;
 	private float lastDirectionChange = 0;

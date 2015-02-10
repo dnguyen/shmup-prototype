@@ -656,7 +656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePosition: {fileID: 1991760213}
-  bullet: {fileID: 128522, guid: 67caa6bc8f966aa4d868bb3ebe20aeb9, type: 2}
+  bullet: {fileID: 113450, guid: 1e227d23c781fe8489a8d6b9f19b2d33, type: 2}
 --- !u!50 &1925976640
 Rigidbody2D:
   m_ObjectHideFlags: 0
@@ -733,8 +733,8 @@ MonoBehaviour:
   health: 0
   mainCamera: {fileID: 1972924754}
   firePosition: {fileID: 1991760213}
-  bullet: {fileID: 160242, guid: 82d96b1e2b5d59e4280acf22aa00d943, type: 2}
-  muzzleFlash: {fileID: 138942, guid: 7b6e6d0d02b30b345a27737a7a00fbfd, type: 2}
+  bullet: {fileID: 113450, guid: 1e227d23c781fe8489a8d6b9f19b2d33, type: 2}
+  muzzleFlash: {fileID: 167484, guid: 61e64ba8e782e244781a1a49713bc7e2, type: 2}
   crosshair: {fileID: 492792583}
 --- !u!1 &1972871704
 GameObject:
@@ -872,7 +872,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -929,7 +929,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1991760213}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .180000007, y: 1.44000006, z: 0}
+  m_LocalPosition: {x: .180000007, y: 1.71000004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1925976642}
