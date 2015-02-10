@@ -14,13 +14,13 @@ public class Scene : MonoBehaviour {
         }
     }
 
-	void Start () {
-		Screen.showCursor = true;
+    void Start() {
+        Screen.showCursor = true;
         currentSpawnRate = START_SPAWN_RATE;
-	}
+    }
 
-	void Update () {
-	}
+    void Update() {
+    }
 
     void OnGUI() {
 
