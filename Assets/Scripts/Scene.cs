@@ -18,7 +18,7 @@ public class Scene : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Screen.showCursor = true;
-		InvokeRepeating ("Spawn", ENEMY_SPAWN_RATE, ENEMY_SPAWN_RATE);
+		//InvokeRepeating ("Spawn", ENEMY_SPAWN_RATE, ENEMY_SPAWN_RATE);
 	}
 	
 	// Update is called once per frame

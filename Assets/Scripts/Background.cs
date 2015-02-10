@@ -4,6 +4,7 @@ using System.Collections;
 public class Background : MonoBehaviour {
 	public BackgroundTile backgroundTile;
 	public GameObject wall;
+	public Enemy enemy;
 
 	private Random random;
 	private int tileCountX;
@@ -13,6 +14,8 @@ public class Background : MonoBehaviour {
 	private float tileWidth;
 	private float tileHeight;
 	private BackgroundTile[,] map;
+	private int[,] testMap;
+	private int[,] spawnPoints;
 	private int cellCount = 0;
 
 	// Use this for initialization
@@ -24,9 +27,12 @@ public class Background : MonoBehaviour {
 		tileCountX = (int)(width / tileWidth);
 		tileCountY = (int)(height / tileHeight);
 		map = new BackgroundTile[tileCountX,tileCountY];
+		spawnPoints = new int[tileCountX, tileCountY];
+		testMap = new int[tileCountX,tileCountY];
 		for (int i = 0; i < tileCountX; i++) {
 			for (int j = 0; j < tileCountY; j++) {
 				map[i,j] = null;
+				spawnPoints[i,j] = 0;
 			}
 		}
 
@@ -36,21 +42,32 @@ public class Background : MonoBehaviour {
 			Debug.Log ("mapsize: " + tileCountX + "," + tileCountY);
 			Debug.Log ("cellCount=" + cellCount);
 		}
-
+		Debug.Log ("Enemy size: " + enemy.renderer.bounds.size.x + "," + enemy.renderer.bounds.size.y);
+		string log = "";
+		// temp fix for walls not rendering in correct position.
+		DestroyMap ();
 		for (int i = 0; i < tileCountX; i++) {
 			for (int j = 0; j < tileCountY; j++) {
-				if (map[i,j] == null) {
-					Instantiate (wall, new Vector3(i * tileWidth, j * tileHeight, 10), Quaternion.identity);
+				log += testMap[i,j];
+			}
+			log += "\n";
+		}
+		Debug.Log (log);
+
+	
+		for (int i = 0; i < tileCountX; i++) {
+			for (int j = 0; j < tileCountY; j++) {
+				if (testMap[i,j] == 1 && map[i,j] != null) {
+					Vector3 gameWorldPlacementPos = new Vector3(map[i,j].mapCoordinate.x * tileWidth, map[i,j].mapCoordinate.y * tileHeight, 20);
+					BackgroundTile newTile = Instantiate (backgroundTile, gameWorldPlacementPos, Quaternion.identity) as BackgroundTile;
+				} else if (testMap[i,j] == 0) {
+					Instantiate (wall, new Vector3(i * tileWidth, j * tileHeight, 20), Quaternion.identity);
+				} else if (spawnPoints[i,j] != 0) {
+					Instantiate (enemy, new Vector3(i * tileWidth, j * tileHeight, 0), Quaternion.identity);
 				}
+
 			}
 		}
-		
-		//}
-//		for (float x = 0; x <= width; x+= tileWidth) {
-//			for (float y = 0; y <= height; y += tileHeight) {
-//				GameObject clone = Instantiate (backgroundTile, new Vector3(x, y, 20), Quaternion.identity) as GameObject;
-//			}
-//		}
 	}
 
 	// Update is called once per frame
@@ -92,6 +109,7 @@ public class Background : MonoBehaviour {
 			cellCount++;
 		} else {
 			activeList.RemoveAt (currentIndex);
+
 		}
 
 		yield return new WaitForSeconds(1.0f);
@@ -103,7 +121,13 @@ public class Background : MonoBehaviour {
 		Vector3 gameWorldPlacementPos = new Vector3(coordinate.x * tileWidth, coordinate.y * tileHeight, 20);
 		BackgroundTile newTile = Instantiate (backgroundTile, gameWorldPlacementPos, Quaternion.identity) as BackgroundTile;
 		newTile.mapCoordinate = new Vector2(coordinate.x, coordinate.y);
+
 		map[(int)coordinate.x, (int)coordinate.y] = newTile;
+		testMap[(int)coordinate.x, (int)coordinate.y] = 1;
+		int spawnEnemy = Random.Range (0, 100);
+		if (spawnEnemy < 15) {
+			spawnPoints[(int)coordinate.x, (int)coordinate.y] = 1;
+		}
 
 		return newTile;
 	}
