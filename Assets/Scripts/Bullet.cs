@@ -16,14 +16,17 @@ public class Bullet : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.name != "Background") {
 			if (!other.name.Contains ("boundary")) {
-				//Debug.Log ("bullet colliding with " + other.name);
+				//Debug.Log (this.tag + " colliding with " + other.tag);
 			}
 			Destroy (this.gameObject);
 		}
 		if (other.name == "Player") {
-			var player = other.GetComponent<AbusePlayerController>();
+			var player = other.GetComponent<Player>();
 			player.health--;
-			//Debug.Log ("Player health:" + player.health);
 		}
+
+        if (this.tag == "player_bullet" && other.tag == "enemy") {
+            Destroy(other.gameObject);
+        }
 	}
 }

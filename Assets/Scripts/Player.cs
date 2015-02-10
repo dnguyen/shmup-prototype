@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AbusePlayerController : MonoBehaviour {
+public class Player : MonoBehaviour {
 	private float SPEED = 6f;
 	private float BULLET_SPEED = 10.0f;
 	private float FIRE_DELAY = 0.15f; // Time between each shot

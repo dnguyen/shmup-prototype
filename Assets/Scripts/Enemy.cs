@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour {
 	public GameObject player;
 	public GameObject bullet;
 	public GameObject firePosition;
+    public int maxHealth;
+    public int health;
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +31,8 @@ public class Enemy : MonoBehaviour {
 		//state = (EnemyState) Random.Range (0, 1);
 		state = EnemyState.PATROL;
 		player = GameObject.FindWithTag("Player");
+        
+        health = maxHealth;
 	}
 
 	void Update () {

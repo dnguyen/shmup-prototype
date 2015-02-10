@@ -3,6 +3,9 @@
 --- !u!78 &1
 TagManager:
   tags:
+  - player_bullet
+  - enemy_bullet
+  - enemy
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

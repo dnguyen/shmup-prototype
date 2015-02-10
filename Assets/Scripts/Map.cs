@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Background : MonoBehaviour {
+public class Map : MonoBehaviour {
+    public Scene game;
 	public BackgroundTile backgroundTile;
 	public GameObject wall;
 	public Enemy enemy;
 
-	private Random random;
 	private int tileCountX;
 	private int tileCountY;
 	private float width;
@@ -20,6 +20,8 @@ public class Background : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        game = FindObjectOfType<Scene>();
+        
 		width = this.collider2D.bounds.size.x;
 		height = this.collider2D.bounds.size.y;
 		tileWidth = backgroundTile.renderer.bounds.size.x;
@@ -125,7 +127,7 @@ public class Background : MonoBehaviour {
 		map[(int)coordinate.x, (int)coordinate.y] = newTile;
 		testMap[(int)coordinate.x, (int)coordinate.y] = 1;
 		int spawnEnemy = Random.Range (0, 100);
-		if (spawnEnemy < 15) {
+		if (spawnEnemy < game.SpawnRate) {
 			spawnPoints[(int)coordinate.x, (int)coordinate.y] = 1;
 		}
 
