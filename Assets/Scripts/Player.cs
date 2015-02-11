@@ -3,12 +3,12 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
     private float SPEED = 6f;
-    private float BULLET_SPEED = 10.0f;
-    private float FIRE_DELAY = 0.15f; // Time between each shot
+    private float BULLET_SPEED = 20.0f;
+    private float FIRE_DELAY = 0.20f; // Time between each shot
     private float MUZZLE_FLASH_LIFE_TIME = 0.025f;
     private float RELOAD_TIME = 1f;
-    private int MAX_BULLETS = 30;
-    private int MAX_HEALTH = 100;
+    public int MAX_BULLETS = 30;
+    public int MAX_HEALTH = 100;
     private float lastShot = 0.0f;
     private bool isReloading = false;
     private Vector2 movementDirection;
@@ -33,11 +33,6 @@ public class Player : MonoBehaviour {
         movementDirection = Vector2.zero;
     }
 
-    void OnGUI() {
-        GUI.Box(new Rect(10, 10, 100, 25), "Ammo: " + currentBulletCount + " / " + MAX_BULLETS);
-        GUI.Box(new Rect(120, 10, 125, 25), "Health: " + health + " / " + MAX_HEALTH);
-    }
-
     // Update is called once per frame
     void Update() {
         float moveHorizontal = Input.GetAxis("Horizontal");
@@ -50,12 +45,11 @@ public class Player : MonoBehaviour {
         Vector3 mousePos = new Vector3(mousePos_world.x, mousePos_world.y, playerPos_world.z);
         Vector3 direction = playerPos_world - mousePos;
 
-
         this.rigidbody2D.velocity = move * SPEED;
         transform.rotation = Quaternion.LookRotation(transform.forward, -direction);
 
         // Handle reloading
-        if (Input.GetKeyDown(KeyCode.R)) {
+        if (Input.GetKeyDown(KeyCode.R)) {  
             if (!isReloading) {
                 StartCoroutine("Reload");
             }

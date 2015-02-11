@@ -68,10 +68,12 @@ public class Map : MonoBehaviour {
                 }
                 else if (spawnPoints[i, j] != 0) {
                     Instantiate(enemy, new Vector3(i * tileWidth, j * tileHeight, 0), Quaternion.identity);
+                    game.enemyCount++;
                 }
 
             }
         }
+        Debug.Log("Enemy count=" + game.enemyCount);
     }
 
     // Update is called once per frame

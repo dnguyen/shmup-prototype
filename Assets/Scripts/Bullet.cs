@@ -26,6 +26,8 @@ public class Bullet : MonoBehaviour {
         }
 
         if (this.tag == "player_bullet" && other.tag == "enemy") {
+            Scene game = FindObjectOfType<Scene>();
+            game.enemyCount--;
             Destroy(other.gameObject);
         }
     }
