@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
     public int health;
 
     public Camera mainCamera;
+    public Scene game;
     public GameObject firePosition;
     public GameObject bullet;
     public GameObject muzzleFlash;
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour {
         currentBulletCount = MAX_BULLETS;
         health = MAX_HEALTH;
         movementDirection = Vector2.zero;
+        
     }
 
     // Update is called once per frame
@@ -106,5 +108,12 @@ public class Player : MonoBehaviour {
         Debug.Log("Done reloading");
         currentBulletCount = MAX_BULLETS;
         isReloading = false;
+    }
+
+    public void TakeDamage() {
+        health--;
+        if (health <= 0) {
+            game.HandleGameOver();
+        }
     }
 }

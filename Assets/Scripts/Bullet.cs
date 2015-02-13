@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour {
         }
         if (other.name == "Player") {
             var player = other.GetComponent<Player>();
-            player.health--;
+            player.TakeDamage();
         }
 
         if (this.tag == "player_bullet" && other.tag == "enemy") {

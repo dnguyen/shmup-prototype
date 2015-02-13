@@ -658,6 +658,7 @@ MonoBehaviour:
   currentBulletCount: 0
   health: 0
   mainCamera: {fileID: 1972924754}
+  game: {fileID: 403404738}
   firePosition: {fileID: 1991760213}
   bullet: {fileID: 113450, guid: 1e227d23c781fe8489a8d6b9f19b2d33, type: 2}
   muzzleFlash: {fileID: 167484, guid: 61e64ba8e782e244781a1a49713bc7e2, type: 2}

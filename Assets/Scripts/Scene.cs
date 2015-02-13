@@ -10,8 +10,8 @@ public class Scene : MonoBehaviour {
     public int currentSpawnRate;
     public int currentMapSize;
     private int START_SPAWN_RATE = 7;
-    
-    private float SPAWN_RATE_GROWTH = 0.2f;
+    private int MIN_SPAWN_RATE = 10;
+    private int MAX_MAP_SIZE = 75;
     public int enemyCount = 0;
 
     private bool isTransition = false;
@@ -19,19 +19,29 @@ public class Scene : MonoBehaviour {
     public int SpawnRate {
         
         get {
-            
-            return Mathf.Min(10, currentMapSize - (int)(currentMapSize * 0.1f));
+            var spawn = currentMapSize / 2 - (int)(currentMapSize * 0.1f);
+            if (spawn < MIN_SPAWN_RATE) {
+                return MIN_SPAWN_RATE;
+            }
+            else {
+                return spawn;
+            }
         }
     }
 
     public int MapSize {
         get {
             var levelmodifier = (currentLevel+2) * 10;
-            return Mathf.Min(30, levelmodifier);
+            if (levelmodifier > MAX_MAP_SIZE)
+                return MAX_MAP_SIZE;
+            else
+                return levelmodifier;
         }
     }
 
     void Start() {
+
+        PlayerPrefs.SetInt("completedLevels", currentLevel);
         Screen.showCursor = true;
         player = FindObjectOfType<Player>();
         map = FindObjectOfType<Map>();
@@ -50,7 +60,7 @@ public class Scene : MonoBehaviour {
         GUI.Box(new Rect(120, 10, 125, 25), "Health: " + player.health + " / " + player.MAX_HEALTH);
         GUI.Box(new Rect(Screen.width - 110, 10, 100, 25), "Level: " + currentLevel);
         if (isTransition) {
-            GUI.Box(new Rect(Screen.width/2, Screen.height/2, 125, 25), "Generating level: " + currentLevel);
+            GUI.Box(new Rect(Screen.width/2 - 62, Screen.height/2 - 25, 125, 25), "Generating level: " + currentLevel);
         }
     }
 
@@ -76,6 +86,11 @@ public class Scene : MonoBehaviour {
             player.enabled = true;
             isTransition = false;
         }
+    }
+
+    public void HandleGameOver() {
+        PlayerPrefs.SetInt("completedLevels", currentLevel);
+        Application.LoadLevel("GameOver");
     }
 
 }

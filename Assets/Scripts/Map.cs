@@ -50,27 +50,17 @@ public class Map : MonoBehaviour {
 
     public void ResetMap() {
 
-        Debug.Log("BeforeDestroyed Map");
-        Debug.Log("mapObj count=" + mapObjects.Count);
-        Debug.Log("spawnPositions=" + spawnWorldPositions.Count);
         DestroyMap();
 
         foreach (GameObject obj in mapObjects) {
             if (obj != null) {
-                Debug.Log("Destroying " + obj.name);
                 Destroy(obj);
             }
-            else
-                Debug.Log("Trying to destroy null");
         }
         game.enemyCount = 0;
         mapObjects.Clear();
         spawnWorldPositions.Clear();
-        Debug.Log("Destroyed Map");
-        Debug.Log("mapObj count=" + mapObjects.Count);
         CreateMap();
-        Debug.Log("Map Created");
-        Debug.Log("mapObj count=" + mapObjects.Count);
     }
 
     void CreateMap() {
