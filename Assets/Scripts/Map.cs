@@ -81,7 +81,7 @@ public class Map : MonoBehaviour {
             }
         }
 
-        while (cellCount < 60) {
+        while (cellCount < game.MapSize) {
             for (int i = 0; i < tileCountX; i++) {
                 for (int j = 0; j < tileCountY; j++) {
                     mapGameObjects[i, j] = null;

@@ -13,7 +13,14 @@ public class Scene : MonoBehaviour {
 
     public int SpawnRate {
         get {
-            return currentSpawnRate + (int)(currentLevel * SPAWN_RATE_GROWTH);
+            return currentSpawnRate + (int)((currentLevel + 1) * SPAWN_RATE_GROWTH);
+        }
+    }
+
+    public int MapSize {
+        get {
+            var levelmodifier = (currentLevel+1) * 10;
+            return levelmodifier - (int)(levelmodifier * 0.2f);
         }
     }
 

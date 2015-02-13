@@ -524,7 +524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24e050b7b205ca84ab6d77cb6e47bc22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game: {fileID: 0}
+  game: {fileID: 403404738}
   backgroundTile: {fileID: 11482912, guid: e2bb74d6559b14eccbb502d6f925bfad, type: 2}
   wall: {fileID: 131904, guid: 251d89ecb1ad74129b55f121f47d624a, type: 2}
   enemy: {fileID: 183440, guid: a0046731420ced3428a2ebcfa4f2431c, type: 2}
