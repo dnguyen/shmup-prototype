@@ -63,6 +63,7 @@ public class Map : MonoBehaviour {
             else
                 Debug.Log("Trying to destroy null");
         }
+        game.enemyCount = 0;
         mapObjects.Clear();
         spawnWorldPositions.Clear();
         Debug.Log("Destroyed Map");
