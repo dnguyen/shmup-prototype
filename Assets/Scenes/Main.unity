@@ -527,7 +527,8 @@ MonoBehaviour:
   game: {fileID: 0}
   backgroundTile: {fileID: 11482912, guid: e2bb74d6559b14eccbb502d6f925bfad, type: 2}
   wall: {fileID: 131904, guid: 251d89ecb1ad74129b55f121f47d624a, type: 2}
-  enemy: {fileID: 11483438, guid: a0046731420ced3428a2ebcfa4f2431c, type: 2}
+  enemy: {fileID: 183440, guid: a0046731420ced3428a2ebcfa4f2431c, type: 2}
+  player: {fileID: 1925976644}
 --- !u!61 &1355303050
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -657,13 +658,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7761d6bcaf6584f4dac2fc4660ee6d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SPEED: 5
-  BULLET_SPEED: 500
-  FIRE_DELAY: .150000006
-  PLAYER_ROTATION_SPEED: 5
-  lastShot: 0
-  firePosition: {fileID: 1991760213}
-  bullet: {fileID: 113450, guid: 1e227d23c781fe8489a8d6b9f19b2d33, type: 2}
 --- !u!50 &1925976640
 Rigidbody2D:
   m_ObjectHideFlags: 0

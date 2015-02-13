@@ -5,7 +5,8 @@ public class Map : MonoBehaviour {
     public Scene game;
     public BackgroundTile backgroundTile;
     public GameObject wall;
-    public Enemy enemy;
+    public GameObject enemy;
+    public Player player;
 
     private int tileCountX;
     private int tileCountY;
@@ -13,10 +14,13 @@ public class Map : MonoBehaviour {
     private float height;
     private float tileWidth;
     private float tileHeight;
-    private BackgroundTile[,] map;
-    private int[,] testMap;
+    private BackgroundTile[,] mapGameObjects;
+    private int[,] mapCoordinates;
     private int[,] spawnPoints;
     private int cellCount = 0;
+    private ArrayList spawnWorldPositions;
+    private ArrayList enemies;
+    private ArrayList mapObjects;
 
     // Use this for initialization
     void Start() {
@@ -28,68 +32,90 @@ public class Map : MonoBehaviour {
         tileHeight = backgroundTile.renderer.bounds.size.y;
         tileCountX = (int)(width / tileWidth);
         tileCountY = (int)(height / tileHeight);
-        map = new BackgroundTile[tileCountX, tileCountY];
-        spawnPoints = new int[tileCountX, tileCountY];
-        testMap = new int[tileCountX, tileCountY];
-        for (int i = 0; i < tileCountX; i++) {
-            for (int j = 0; j < tileCountY; j++) {
-                map[i, j] = null;
-                spawnPoints[i, j] = 0;
-            }
-        }
+        enemies = new ArrayList();
+        mapObjects = new ArrayList();
+        spawnWorldPositions = new ArrayList();
 
-        while (cellCount < 60) {
-            DestroyMap();
-            GenerateMap();
-            Debug.Log("mapsize: " + tileCountX + "," + tileCountY);
-            Debug.Log("cellCount=" + cellCount);
-        }
-        Debug.Log("Enemy size: " + enemy.renderer.bounds.size.x + "," + enemy.renderer.bounds.size.y);
-        string log = "";
-        // temp fix for walls not rendering in correct position.
-        DestroyMap();
-        for (int i = 0; i < tileCountX; i++) {
-            for (int j = 0; j < tileCountY; j++) {
-                log += testMap[i, j];
-            }
-            log += "\n";
-        }
-        Debug.Log(log);
-
-
-        for (int i = 0; i < tileCountX; i++) {
-            for (int j = 0; j < tileCountY; j++) {
-                if (testMap[i, j] == 1 && map[i, j] != null) {
-                    Vector3 gameWorldPlacementPos = new Vector3(map[i, j].mapCoordinate.x * tileWidth, map[i, j].mapCoordinate.y * tileHeight, 20);
-                    BackgroundTile newTile = Instantiate(backgroundTile, gameWorldPlacementPos, Quaternion.identity) as BackgroundTile;
-                }
-                else if (testMap[i, j] == 0) {
-                    Instantiate(wall, new Vector3(i * tileWidth, j * tileHeight, 20), Quaternion.identity);
-                }
-                else if (spawnPoints[i, j] != 0) {
-                    Instantiate(enemy, new Vector3(i * tileWidth, j * tileHeight, 0), Quaternion.identity);
-                    game.enemyCount++;
-                }
-
-            }
-        }
+        CreateMap();
         Debug.Log("Enemy count=" + game.enemyCount);
     }
 
     // Update is called once per frame
     void Update() {
         if (Input.GetKeyDown(KeyCode.G)) {
-            Application.LoadLevel("Main");
+            //Application.LoadLevel("Main");
+
+            Debug.Log("BeforeDestroyed Map");
+            Debug.Log("mapObj count=" + mapObjects.Count);
+            Debug.Log("spawnPositions=" + spawnWorldPositions.Count);
+            DestroyMap();
+
+            foreach (GameObject obj in mapObjects) {
+                if (obj != null) {
+                    Debug.Log("Destroying " + obj.name);
+                    Destroy(obj);
+                }
+                else
+                    Debug.Log("Trying to destroy null");
+            }
+            mapObjects.Clear();
+            spawnWorldPositions.Clear();
+            Debug.Log("Destroyed Map");
+            Debug.Log("mapObj count=" + mapObjects.Count);
+            CreateMap();
+            Debug.Log("Map Created");
+            Debug.Log("mapObj count=" + mapObjects.Count);
         }
     }
 
-    void DestroyMap() {
+    void CreateMap() {
+        cellCount = 0;
+        mapGameObjects = new BackgroundTile[tileCountX, tileCountY];
+        spawnPoints = new int[tileCountX, tileCountY];
+        mapCoordinates = new int[tileCountX, tileCountY];
+
         for (int i = 0; i < tileCountX; i++) {
             for (int j = 0; j < tileCountY; j++) {
-                Destroy(map[i, j]);
-                map[i, j] = null;
+                mapGameObjects[i, j] = null;
+                spawnPoints[i, j] = 0;
             }
         }
+
+        while (cellCount < 60) {
+            for (int i = 0; i < tileCountX; i++) {
+                for (int j = 0; j < tileCountY; j++) {
+                    mapGameObjects[i, j] = null;
+                    spawnPoints[i, j] = 0;
+                }
+            }
+            spawnWorldPositions.Clear();
+            GenerateMap();
+        }
+            Debug.Log("Starting to render");
+        for (int i = 0; i < tileCountX; i++) {
+            for (int j = 0; j < tileCountY; j++) {
+                // Draw walls
+                if (mapCoordinates[i, j] == 0) {
+                    mapObjects.Add(Instantiate(wall, new Vector3(i * tileWidth, j * tileHeight, 20), Quaternion.identity) as GameObject);
+                }
+                else if (spawnPoints[i, j] == 1) {
+                    mapObjects.Add(Instantiate(enemy, new Vector3(i * tileWidth, j * tileHeight, 0), Quaternion.identity) as GameObject);
+                }
+
+            }
+        }
+
+        Debug.Log("Spawn positions " + spawnWorldPositions.Count);
+        foreach (Vector3 spawnPoint in spawnWorldPositions) {
+            game.enemyCount++;
+        }
+
+        player.transform.position = FindPlayerSpawnPosition();
+    }
+
+    void DestroyMap() {
+
+
     }
 
     void GenerateMap() {
@@ -110,7 +136,7 @@ public class Map : MonoBehaviour {
         BackgroundTile currentTile = (BackgroundTile)activeList[currentIndex];
         GeneratorDirections direction = CellDirection.getRandomDirection;
         Vector2 coordinates = currentTile.mapCoordinate + CellDirection.toVector(direction);
-        if (ContainsCoordinates(coordinates) && map[(int)coordinates.x, (int)coordinates.y] == null) {
+        if (ContainsCoordinates(coordinates) && mapGameObjects[(int)coordinates.x, (int)coordinates.y] == null) {
             activeList.Add(CreateCell(coordinates));
             cellCount++;
         }
@@ -123,17 +149,17 @@ public class Map : MonoBehaviour {
     }
 
     BackgroundTile CreateCell(Vector2 coordinate) {
-
-        Debug.Log("Creating cell at: " + coordinate);
         Vector3 gameWorldPlacementPos = new Vector3(coordinate.x * tileWidth, coordinate.y * tileHeight, 20);
         BackgroundTile newTile = Instantiate(backgroundTile, gameWorldPlacementPos, Quaternion.identity) as BackgroundTile;
+        mapObjects.Add(newTile.gameObject);
         newTile.mapCoordinate = new Vector2(coordinate.x, coordinate.y);
 
-        map[(int)coordinate.x, (int)coordinate.y] = newTile;
-        testMap[(int)coordinate.x, (int)coordinate.y] = 1;
+        mapGameObjects[(int)coordinate.x, (int)coordinate.y] = newTile;
+        mapCoordinates[(int)coordinate.x, (int)coordinate.y] = 1;
         int spawnEnemy = Random.Range(0, 100);
         if (spawnEnemy < game.SpawnRate) {
             spawnPoints[(int)coordinate.x, (int)coordinate.y] = 1;
+            spawnWorldPositions.Add(new Vector3((int)coordinate.x * tileWidth, (int)coordinate.y * tileHeight, 0));
         }
 
         return newTile;
@@ -141,6 +167,32 @@ public class Map : MonoBehaviour {
 
     public bool ContainsCoordinates(Vector2 coordinate) {
         return coordinate.x >= 0 && coordinate.x < tileCountX && coordinate.y >= 0 && coordinate.y < tileCountY;
+    }
+
+    public Vector3 FindPlayerSpawnPosition() {
+        double furthestDistance = double.NegativeInfinity;
+        int coordX = 0, coordY = 0;
+        for (int i = 0; i < tileCountX; i++) {
+            for (int j = 0; j < tileCountY; j++) {
+
+                // Only spawn player where there is no enemy already spawned
+                // Only spawn player where there is no wall either.
+                if (spawnPoints[i, j] == 0 && mapCoordinates[i, j] != 0) {
+                    Vector3 tileWorldPosition = new Vector3(i * tileWidth, j * tileHeight, 0);
+                    // Have to look at each enemy that was spawned.
+                    foreach (Vector3 pos in spawnWorldPositions) {
+                        double distance = (tileWorldPosition - pos).magnitude;
+                        if (distance > furthestDistance) {
+                            furthestDistance = distance;
+                            coordX = i;
+                            coordY = j;
+                        }
+                    }
+                }
+            }
+        }
+        Debug.Log("Furthest Distance =" + furthestDistance + " at " + coordX + "," + coordY);
+        return new Vector3(coordX * tileWidth, coordY * tileHeight, 0);
     }
 }
 

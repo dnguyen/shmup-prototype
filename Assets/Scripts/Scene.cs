@@ -35,9 +35,7 @@ public class Scene : MonoBehaviour {
 
     // check if all enemies are dead.
     public void checkEnemiesDead() {
-        Debug.Log(enemyCount);
         if (enemyCount <= 0) {
-            Debug.Log("All enemies dead. Generate new level.");
         }
     }
 
