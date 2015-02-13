@@ -9,7 +9,6 @@ public class Scene : MonoBehaviour {
     public int currentLevel = 0;
     public int currentSpawnRate;
     public int currentMapSize;
-    private int START_SPAWN_RATE = 7;
     private int MIN_SPAWN_RATE = 10;
     private int MAX_MAP_SIZE = 75;
     public int enemyCount = 0;

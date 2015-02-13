@@ -19,7 +19,6 @@ public class Map : MonoBehaviour {
     private int[,] spawnPoints;
     private int cellCount = 0;
     private ArrayList spawnWorldPositions;
-    private ArrayList enemies;
     private ArrayList mapObjects;
 
     // Use this for initialization
@@ -32,7 +31,6 @@ public class Map : MonoBehaviour {
         tileHeight = backgroundTile.renderer.bounds.size.y;
         tileCountX = (int)(width / tileWidth);
         tileCountY = (int)(height / tileHeight);
-        enemies = new ArrayList();
         mapObjects = new ArrayList();
         spawnWorldPositions = new ArrayList();
 
@@ -99,10 +97,6 @@ public class Map : MonoBehaviour {
                 }
 
             }
-        }
-
-        Debug.Log("Spawn positions " + spawnWorldPositions.Count);
-        foreach (Vector3 spawnPoint in spawnWorldPositions) {
         }
 
         player.transform.position = FindPlayerSpawnPosition();

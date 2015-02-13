@@ -11,7 +11,6 @@ public class Player : MonoBehaviour {
     public int MAX_HEALTH = 100;
     private float lastShot = 0.0f;
     private bool isReloading = false;
-    private Vector2 movementDirection;
 
     // Screen shake vars
     private Vector3 originalCameraPosition;
@@ -31,8 +30,6 @@ public class Player : MonoBehaviour {
     void Start() {
         currentBulletCount = MAX_BULLETS;
         health = MAX_HEALTH;
-        movementDirection = Vector2.zero;
-        
     }
 
     // Update is called once per frame

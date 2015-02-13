@@ -36,11 +36,6 @@ public class Enemy : MonoBehaviour {
     }
 
     void Update() {
-        float distanceFromPlayer = Vector3.Distance(player.transform.position, transform.position);
-        Vector3 enemyPos_world = transform.position;
-        Vector3 playerPos_world = player.transform.position;
-        Vector3 directionTowardsPlayer = enemyPos_world - playerPos_world;
-
         if (lastShot >= FIRE_DELAY && firing) {
             FireBullet();
             lastShot = 0;
