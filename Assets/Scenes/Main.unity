@@ -181,6 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLevel: 1
   currentSpawnRate: 0
+  currentMapSize: 0
   enemyCount: 0
 --- !u!4 &403404739
 Transform:

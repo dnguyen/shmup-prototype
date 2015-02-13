@@ -44,28 +44,32 @@ public class Map : MonoBehaviour {
     void Update() {
         if (Input.GetKeyDown(KeyCode.G)) {
             //Application.LoadLevel("Main");
-
-            Debug.Log("BeforeDestroyed Map");
-            Debug.Log("mapObj count=" + mapObjects.Count);
-            Debug.Log("spawnPositions=" + spawnWorldPositions.Count);
-            DestroyMap();
-
-            foreach (GameObject obj in mapObjects) {
-                if (obj != null) {
-                    Debug.Log("Destroying " + obj.name);
-                    Destroy(obj);
-                }
-                else
-                    Debug.Log("Trying to destroy null");
-            }
-            mapObjects.Clear();
-            spawnWorldPositions.Clear();
-            Debug.Log("Destroyed Map");
-            Debug.Log("mapObj count=" + mapObjects.Count);
-            CreateMap();
-            Debug.Log("Map Created");
-            Debug.Log("mapObj count=" + mapObjects.Count);
+            ResetMap();
         }
+    }
+
+    public void ResetMap() {
+
+        Debug.Log("BeforeDestroyed Map");
+        Debug.Log("mapObj count=" + mapObjects.Count);
+        Debug.Log("spawnPositions=" + spawnWorldPositions.Count);
+        DestroyMap();
+
+        foreach (GameObject obj in mapObjects) {
+            if (obj != null) {
+                Debug.Log("Destroying " + obj.name);
+                Destroy(obj);
+            }
+            else
+                Debug.Log("Trying to destroy null");
+        }
+        mapObjects.Clear();
+        spawnWorldPositions.Clear();
+        Debug.Log("Destroyed Map");
+        Debug.Log("mapObj count=" + mapObjects.Count);
+        CreateMap();
+        Debug.Log("Map Created");
+        Debug.Log("mapObj count=" + mapObjects.Count);
     }
 
     void CreateMap() {
@@ -81,7 +85,7 @@ public class Map : MonoBehaviour {
             }
         }
 
-        while (cellCount < game.MapSize) {
+        while (cellCount < game.currentMapSize) {
             for (int i = 0; i < tileCountX; i++) {
                 for (int j = 0; j < tileCountY; j++) {
                     mapGameObjects[i, j] = null;
@@ -100,6 +104,7 @@ public class Map : MonoBehaviour {
                 }
                 else if (spawnPoints[i, j] == 1) {
                     mapObjects.Add(Instantiate(enemy, new Vector3(i * tileWidth, j * tileHeight, 0), Quaternion.identity) as GameObject);
+                    game.enemyCount++;
                 }
 
             }
@@ -107,7 +112,6 @@ public class Map : MonoBehaviour {
 
         Debug.Log("Spawn positions " + spawnWorldPositions.Count);
         foreach (Vector3 spawnPoint in spawnWorldPositions) {
-            game.enemyCount++;
         }
 
         player.transform.position = FindPlayerSpawnPosition();
@@ -157,7 +161,7 @@ public class Map : MonoBehaviour {
         mapGameObjects[(int)coordinate.x, (int)coordinate.y] = newTile;
         mapCoordinates[(int)coordinate.x, (int)coordinate.y] = 1;
         int spawnEnemy = Random.Range(0, 100);
-        if (spawnEnemy < game.SpawnRate) {
+        if (spawnEnemy < game.currentSpawnRate) {
             spawnPoints[(int)coordinate.x, (int)coordinate.y] = 1;
             spawnWorldPositions.Add(new Vector3((int)coordinate.x * tileWidth, (int)coordinate.y * tileHeight, 0));
         }
