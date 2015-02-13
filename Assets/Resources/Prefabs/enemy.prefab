@@ -69,7 +69,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
   m_GravityScale: 0
-  m_FixedAngle: 0
+  m_FixedAngle: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -99,6 +99,8 @@ MonoBehaviour:
   player: {fileID: 0}
   bullet: {fileID: 160242, guid: 82d96b1e2b5d59e4280acf22aa00d943, type: 2}
   firePosition: {fileID: 183438}
+  maxHealth: 0
+  health: 0
 --- !u!212 &21283438
 SpriteRenderer:
   m_ObjectHideFlags: 1

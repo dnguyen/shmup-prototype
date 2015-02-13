@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour {
 
-
     // Use this for initialization
     void Start() {
     }
@@ -27,8 +26,13 @@ public class Bullet : MonoBehaviour {
 
         if (this.tag == "player_bullet" && other.tag == "enemy") {
             Scene game = FindObjectOfType<Scene>();
-            game.KillEnemy();
+            Vector3 enemyDeathPos = other.transform.position;
+            if (Random.Range (0,100) < 10) {
+                game.SpawnHealth(enemyDeathPos);
+            }
+            game.KillEnemy(enemyDeathPos);
             Destroy(other.gameObject);
+
         }
     }
 }

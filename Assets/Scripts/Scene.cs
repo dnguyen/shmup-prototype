@@ -5,6 +5,8 @@ public class Scene : MonoBehaviour {
 
     private Player player;
     private Map map;
+    public GameObject enemyDeath;
+    public GameObject healthPowerUp;
 
     public int currentLevel = 0;
     public int currentSpawnRate;
@@ -63,9 +65,14 @@ public class Scene : MonoBehaviour {
         }
     }
 
-    public void KillEnemy() {
+    public void KillEnemy(Vector3 enemyDeathPos) {
         enemyCount--;
+        map.AddGameObject (Instantiate (enemyDeath, enemyDeathPos, Quaternion.identity) as GameObject);
         StartCoroutine("checkEnemiesDead");
+    }
+
+    public void SpawnHealth(Vector3 pos) {
+        map.AddGameObject (Instantiate (healthPowerUp, pos, Quaternion.identity) as GameObject);
     }
 
     // check if all enemies are dead.

@@ -88,7 +88,11 @@ public class Player : MonoBehaviour {
 
 
     void OnTriggerEnter2D(Collider2D other) {
-        //Debug.Log ("Player colliding:" + other.name);
+        Debug.Log ("Player colliding:" + other.name);
+        if (other.name.Contains("HealthPowerUp")) {
+            this.health += 5;
+            Destroy (other.gameObject);
+        }
 
     }
 
@@ -113,4 +117,6 @@ public class Player : MonoBehaviour {
             game.HandleGameOver();
         }
     }
+
+
 }

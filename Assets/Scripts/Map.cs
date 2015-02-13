@@ -183,6 +183,10 @@ public class Map : MonoBehaviour {
         Debug.Log("Furthest Distance =" + furthestDistance + " at " + coordX + "," + coordY);
         return new Vector3(coordX * tileWidth, coordY * tileHeight, 0);
     }
+
+    public void AddGameObject(GameObject obj) {
+        mapObjects.Add (obj);
+    }
 }
 
 // Helper classes for map generation

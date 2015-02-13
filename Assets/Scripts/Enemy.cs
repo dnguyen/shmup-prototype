@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour {
     private float BULLET_SPEED = 10.0f;
     private float lastShot = 0;
     private float lastDirectionChange = 0;
-    private float CHANGE_DIRECTION_DELAY = 1.0f;
+    private float CHANGE_DIRECTION_DELAY = 3.0f;
     private Vector2 moveDirection;
     private EnemyState state;
     private bool firing;
@@ -33,6 +33,8 @@ public class Enemy : MonoBehaviour {
         player = GameObject.FindWithTag("Player");
 
         health = maxHealth;
+        CHANGE_DIRECTION_DELAY = Random.Range (2, 4);
+
     }
 
     void Update() {

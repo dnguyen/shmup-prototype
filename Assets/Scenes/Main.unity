@@ -101,6 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bad946c67a7de294f8e9b1be1c93179e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyDeath: {fileID: 198426, guid: 921c4a430c41544e3970453df0676560, type: 2}
+  healthPowerUp: {fileID: 194606, guid: 66b99aa00adbe4638bd06f2706e36022, type: 2}
   currentLevel: 1
   currentSpawnRate: 0
   currentMapSize: 0
