@@ -42,7 +42,7 @@ public class Scene : MonoBehaviour {
     void Start() {
 
         PlayerPrefs.SetInt("completedLevels", currentLevel);
-        Screen.showCursor = true;
+        Screen.showCursor = false;
         player = FindObjectOfType<Player>();
         map = FindObjectOfType<Map>();
         currentMapSize = MapSize;
@@ -60,7 +60,7 @@ public class Scene : MonoBehaviour {
         GUI.Box(new Rect(120, 10, 125, 25), "Health: " + player.health + " / " + player.MAX_HEALTH);
         GUI.Box(new Rect(Screen.width - 110, 10, 100, 25), "Level: " + currentLevel);
         if (isTransition) {
-            GUI.Box(new Rect(Screen.width/2 - 62, Screen.height/2 - 25, 125, 25), "Generating level: " + currentLevel);
+            GUI.Box(new Rect(Screen.width/2 - 75, Screen.height/2 - 25, 250, 25), "Completed level. Generating level: " + currentLevel);
         }
     }
 
@@ -74,13 +74,14 @@ public class Scene : MonoBehaviour {
         Debug.Log(this.enemyCount);
         if (enemyCount <= 0) {
             Debug.Log("All enemies dead. Generate new level");
+            yield return new WaitForSeconds(0.5f);
             isTransition = true;
             player.enabled = false;
             player.transform.position = new Vector3(-100, 100, -20);
             currentLevel++;
             currentMapSize = MapSize;
             currentSpawnRate = SpawnRate;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
             map.ResetMap();
 
             player.enabled = true;
